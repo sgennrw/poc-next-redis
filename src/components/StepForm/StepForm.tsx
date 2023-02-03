@@ -1,25 +1,34 @@
 import { useContext, useState } from 'react';
-import {
-  FormContext,
-  FormContextProvider,
-  IFormData,
-  IStep1Data,
-  IStep2Data,
-} from './context';
+import { FormContext, IFormData, IStep1Data, IStep2Data } from './context';
 import Step1 from './Step1';
 import Step2 from './Step2';
 
-const StepperForm = () => {
+const StepForm = () => {
   const [currentStep, setCurrentStep] = useState<number>(1);
 
   const { formData, setFormData } = useContext(FormContext);
 
   const onSubmit =
     (step: keyof IFormData) => (values: IStep1Data | IStep2Data) => {
-      setFormData({
-        ...formData,
-        [step]: values,
-      });
+      const data = { ...formData, [step]: values };
+
+      setFormData(data);
+
+      const body = {
+        formToken: formData.id,
+        data,
+      };
+
+      fetch('/api/form/set', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      })
+        .then((data) => console.log('save success', data))
+        .catch(() => console.error('error ja'));
+
       setCurrentStep(currentStep + 1);
     };
 
@@ -45,11 +54,5 @@ const StepperForm = () => {
     </div>
   );
 };
-
-const StepForm = () => (
-  <FormContextProvider>
-    <StepperForm />
-  </FormContextProvider>
-);
 
 export default StepForm;

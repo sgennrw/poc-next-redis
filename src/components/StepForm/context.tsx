@@ -6,7 +6,6 @@ import {
   SetStateAction,
   useState,
 } from 'react';
-
 export interface IStep1Data {
   email?: string;
   password?: string;
@@ -18,11 +17,13 @@ export interface IStep2Data {
 }
 
 export interface IFormData {
+  id?: string;
   step1: IStep1Data;
   step2: IStep2Data;
 }
 
-const initialFormData = {
+export const initialFormData = {
+  id: undefined,
   step1: {
     email: undefined,
     password: undefined,
@@ -41,10 +42,14 @@ export const FormContext = createContext<{
   setFormData: () => undefined,
 });
 
-export const FormContextProvider: FC<{ children: ReactNode }> = ({
-  children,
-}) => {
-  const [formData, setFormData] = useState<IFormData>(initialFormData);
+export const FormContextProvider: FC<{
+  children: ReactNode;
+  defaultValues: IFormData;
+}> = ({ children, defaultValues }) => {
+  const [formData, setFormData] = useState<IFormData>({
+    ...initialFormData,
+    ...defaultValues,
+  });
 
   return (
     <FormContext.Provider value={{ formData, setFormData }}>
