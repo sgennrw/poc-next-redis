@@ -13,27 +13,77 @@ const Hello: NextPage = () => {
       </Head>
       <main className={styles.main}>
         <div>
-          Hello
+          <div>
+            Hello Middleware
+            <br />
+            <button
+              onClick={async () => {
+                await fetch('/pokemon/ditto', {
+                  method: 'get',
+                });
+              }}
+            >
+              Get Pokemon
+            </button>
+            <button
+              style={{ marginLeft: 10 }}
+              onClick={async () => {
+                await fetch('/foo?id=foo', {
+                  method: 'get',
+                });
+              }}
+            >
+              Get Foo
+            </button>
+            <button
+              style={{ marginLeft: 10 }}
+              onClick={async () => {
+                await fetch('/foo/create', {
+                  method: 'post',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({
+                    name: 'Foo Bar',
+                  }),
+                });
+              }}
+            >
+              Create Foo
+            </button>
+          </div>
+
           <br />
-          <button
-            onClick={async () => {
-              await fetch('/pokemon/ditto', {
-                method: 'get',
-              });
-            }}
-          >
-            Hello Pokemon
-          </button>
-          <br />
-          <button
-            onClick={async () => {
-              await fetch('/api/hello', {
-                method: 'get',
-              });
-            }}
-          >
-            Hello serverless
-          </button>
+
+          <div>
+            Hello Serverless
+            <br />
+            <button
+              onClick={async () => {
+                await fetch('/api/hello?id=999', {
+                  method: 'get',
+                });
+              }}
+            >
+              Get Jane999
+            </button>
+            <button
+              style={{ marginLeft: 10 }}
+              onClick={async () => {
+                await fetch('/api/hello/create', {
+                  method: 'post',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({
+                    name: 'John Doe',
+                  }),
+                });
+              }}
+            >
+              Create John doe
+            </button>
+          </div>
         </div>
       </main>
     </>
