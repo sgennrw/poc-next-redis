@@ -13,6 +13,8 @@ export default function handler(
 ) {
   const { id } = req.query as { id: string };
 
+  console.log('/api/foo headers[x-foo-id] =', req.headers['x-foo-id']);
+
   res.status(200).json({
     id,
     name: 'Get Foo',

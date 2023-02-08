@@ -30,6 +30,9 @@ const Hello: NextPage = () => {
               onClick={async () => {
                 await fetch('/foo?id=foo', {
                   method: 'get',
+                  headers: {
+                    'x-foo-id': '123456789',
+                  },
                 });
               }}
             >
